@@ -2,33 +2,34 @@
 ; hello.asm
 ; 28 July 2017
 ;
-	[BITS 16]
+
+[bits 16]
 	
-	ORG 0x7C00
-	
+	org 0x7C00
 
-	JMP main
-
-
+	jmp main
 
 	MSG DB "Hello World!", 13, 10, 0
+	OTHER DB "Another Line of Text", 13, 10, 0
 
 
-printString:
-	LODSB
-	OR 	AL, AL
-	JZ	printStringRet
-	MOV 	AH, 0xE
-	INT 	0x10
-	JMP 	printString
+print_string:
+	lodsb
+	or		al, al
+	jz		print_string_ret
+	mov 	ah, 0xE
+	int 	0x10
+	jmp 	print_string
 	
-printStringRet:
-	RET
-
+print_string_ret:
+	ret
 
 main:	
-	MOV 	SI, MSG
-	CALL	printString
+	mov 	si, MSG
+	call	print_string
 
-	CLI
-	HLT
+	mov		si, OTHER
+	call	print_string
+
+	cli
+	hlt
